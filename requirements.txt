@@ -1,3 +1,4 @@
 Django==4.2.7
+django-tailwind==3.6.0
 pytest==7.4.3
 pytest-django==4.7.0

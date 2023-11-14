@@ -1,13 +1,23 @@
 {% load static %}
+{% load static tailwind_tags %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Party!</title>
     <script src="{% static '/party/js/htmx.min.js' %}"></script>
+    {% tailwind_css %}
 </head>
-<body>
-<main>
+<body class="bg-custom-powder-light">
+<nav class="bg-custom-red">
+            <a href="/"
+               class="inline-block p-4 text-custom-powder-light font-dancing-script text-2xl"
+               >
+                My parties
+            </a>
+</nav>
+<main class="container p-5 m-auto">
     {% block content %}
     {% endblock %}
 </main>
