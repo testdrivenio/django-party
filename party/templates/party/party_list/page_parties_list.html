@@ -1,0 +1,24 @@
+{% extends 'party/base.html' %}
+
+{% block content %}
+    <div class="container mx-auto p-6 grid grid-cols-2 gap-5" id="parties-list">
+        {% for party in parties %}
+            <div class="border-2 p-10 border-custom-red bg-white shadow-lg">
+                <h2 class="mb-2 font-bold text-2xl text-custom-red uppercase">{{ party.party_date }}, {{ party.party_time }}, {{ party.venue }}</h2>
+                <div>
+                    {{ party.invitation|truncatewords:120 }}
+                </div>
+                <div class="mt-4">
+                    <a href="" class="text-custom-blue hover:text-custom-blue-light mr-4">Party details</a>
+                    <a href="" class="text-custom-blue hover:text-custom-blue-light mr-4">Gift registry</a>
+                    <a href="" class="text-custom-blue hover:text-custom-blue-light">Guest List </a>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-span-2 text-center bg-sky-200 border border-custom-blue text-custom-blue p-5 py-3 rounded"
+                 role="alert">
+                <p class="mt-3">You currently have no parties.</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
