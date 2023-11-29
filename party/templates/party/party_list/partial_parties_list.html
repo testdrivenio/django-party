@@ -1,0 +1,39 @@
+{% for party in parties %}
+    <!--this part is different-->
+    {% if forloop.last and page_obj.has_next %}
+      <div class="col-span-1 flex flex-col border-2 p-10 border-custom-red bg-white"
+          hx-target="this"
+          hx-get="{% url 'page_party_list' %}?page={{ page_obj.next_page_number }}"
+          hx-swap="afterend"
+          hx-trigger="revealed"
+      >
+    {% else %}
+    <div class="col-span-1 flex flex-col border-2 p-10 border-custom-red bg-white">
+    {% endif %}
+    <!-- / this part is different-->
+        <h2 class="mb-2 font-bold text-2xl text-custom-red uppercase">{{ party.party_date }}, {{ party.party_time }}, {{ party.venue }}</h2>
+        <div>
+            {{ party.invitation|truncatewords:120 }}
+        </div>
+        <div class="mt-4">
+            <a href="{% url 'page_single_party' party.uuid %}" class="text-custom-blue hover:text-custom-blue-light mr-4">Party details</a>
+            <a href="{% url 'page_gift_registry' party.uuid %}"
+               class="text-custom-blue hover:text-custom-blue-light mr-4"
+               data-cy="gift-registry-link"
+            >
+                Gift registry
+            </a>
+            <a href="{% url 'page_guest_list' party.uuid %}" class="text-custom-blue hover:text-custom-blue-light">Guest List</a>
+        </div>
+    </div>
+{% empty %}
+    <div class="col-span-2 text-center bg-sky-200 border border-custom-blue text-custom-blue p-5 py-3 rounded"
+          role="alert">
+        <p class="mt-3">You currently have no parties.</p>
+        <p class="m-5">
+            <a href="{% url 'page_new_party' %}" class="btn-default">
+                Create a new party!
+            </a>
+        </p>
+    </div>
+{% endfor %}

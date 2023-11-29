@@ -1,0 +1,37 @@
+{% extends 'party/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h2 class="font-dancing-script text-2xl text-center p-10">
+        Gift registry for a party at {{ party.venue }} on {{ party.party_date }}
+    </h2>
+    <div id="gift-registry" class="bg-white shadow-md">
+        <div class="table w-full text-left text-gray-500 table-fixed">
+            <div class="table-header-group text-sm text-gray-700 uppercase bg-gray-50">
+                <div class="table-cell py-4 px-6">Gift</div>
+                <div class="table-cell py-4 px-6">App. price</div>
+                <div class="table-cell py-4 px-6">Link</div>
+                {% if user == party.organizer %}
+                    <div class="table-cell py-4 px-6">Edit</div>
+                    <div class="table-cell py-4 px-6">Delete</div>
+                {% endif %}
+            </div>
+            <div class="table-row-group">
+                {% for gift in gifts %}
+                    {% include 'party/gift_registry/partial_gift_detail.html' %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="bg-gray-50 py-4 px-6 text-center">
+            <button type="button"
+                    class="uppercase text-sm text-gray-700"
+                    hx-target="#gift-registry .table-row-group"
+                    hx-swap="beforeend"
+                    hx-get="{% url 'partial_new_gift' party.uuid %}"
+                    data-cy="add-gift-button"
+            >
+                Add gift
+            </button>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,20 @@
+<div id="party-detail">
+    <div class="text-center text-l mb-5 font-dancing-script">
+        <small>Save the date!</small>
+        <h1 class="text-3xl p-2">{{ party.party_date }} {{ party.party_time }}</h1>
+        at
+        <h2 class="text-2xl">{{ party.venue }}</h2>
+    </div>
+
+    <div>
+        {{ party.invitation }}
+    </div>
+
+    <button class="btn-default mr-0 ml-auto block"
+            hx-get="{% url 'partial_party_detail' party.uuid %}"
+            hx-target="#party-detail"
+            data-cy="edit-party-button"
+    >
+        Edit
+    </button>
+</div>

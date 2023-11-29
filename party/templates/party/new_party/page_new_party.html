@@ -1,0 +1,14 @@
+{% extends 'party/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="max-w-6xl mx-auto">
+        <section class="drop-shadow-lg my-10 p-6 bg-white rounded-lg">
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="py-3 px-6">Save</button>
+            </form>
+        </section>
+    </div>
+{% endblock %}

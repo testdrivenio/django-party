@@ -1,0 +1,19 @@
+{% for guest in guests %}
+    <div class="table-row">
+        <div class="table-cell py-4 px-6 w-4">
+            <input type='checkbox'
+                   value="{{ guest.uuid }}"
+                   name="guest_ids"
+                   x-bind:checked="selected_all"
+            >
+        </div>
+        <div class="table-cell py-4 px-4 text-left">
+            {{ guest.name }}
+            <button class="ml-3 py-1 px-2 shadow-md rounded-full text-white text-[10px] {{ guest.attending|yesno:'bg-green-800, bg-custom-red' }}">
+                {{ guest.attending|yesno:"Attending, Not attending" }}
+            </button>
+        </div>
+    </div>
+    {% empty %}
+    <div> No guests match the requirements. </div>
+{% endfor %}

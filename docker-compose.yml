@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  party_db:
+    image: postgres:16-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=party_user
+      - POSTGRES_PASSWORD=party_password
+      - POSTGRES_DB=party_db
+  party:
+    build: .
+    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://party_user:party_password@party_db:5432/party_db
+    depends_on:
+      - party_db
+
+volumes:
+  postgres_data:

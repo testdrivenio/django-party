@@ -1,0 +1,28 @@
+{% extends 'party/base.html' %}
+
+{% load crispy_forms_tags %}
+{% load socialaccount %}
+
+{% block content %}
+    <div class="max-w-6xl mx-auto">
+        <div class="drop-shadow-lg my-10 p-6 bg-white rounded-lg text-center">
+            <p class="p-4 mb-6 bg-red-200 border-custom-red border-2 rounded-md">You have to be logged in to use this app.</p>
+            <form method="post" action="{% url 'party_login' %}" class="">
+                {% csrf_token %}
+                {{ form.username|as_crispy_field }}
+                {{ form.password|as_crispy_field }}
+                <button type="submit" class="btn-default mt-3" data-cy="login-btn">Log in</button>
+                {{ form.non_field_errors }}
+            </form>
+            <div class="mt-14 mb-5">
+                <a href="{% provider_login_url 'google' %}"
+                   class="btn-default bg-custom-red hover:bg-rose-400 p-4 mr-2 my-5">
+                    Login with Google
+                </a>
+                <a href="{% provider_login_url 'facebook' %}" class="btn-default p-4 ml-2 my-5">
+                    Login with Facebook
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

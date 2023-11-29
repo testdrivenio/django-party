@@ -1,0 +1,28 @@
+<div class="table-row">
+  <div class="table-cell py-4 px-6 text-gray-900">{{ gift.gift }}</div>
+  <div class="table-cell py-4 px-6">{{ gift.price|default:"/" }}</div>
+  <div class="table-cell py-4 px-6">{{ gift.link|default:"/"|urlizetrunc:30 }}</div>
+  {% if user == party.organizer %}
+      <div class="table-cell py-4 px-6">
+          <button type="submit"
+                  hx-get="{% url 'partial_gift_update' gift.uuid %}"
+                  hx-target="closest .table-row"
+                  hx-swap="outerHTML"
+                  data-cy="edit-gift-button"
+          >
+              Edit
+          </button>
+      </div>
+      <div class="table-cell py-4 px-6">
+        <button type="button"
+                hx-target="closest .table-row"
+                hx-swap="outerHTML"
+                hx-confirm="Are you sure?"
+                hx-delete="{% url 'partial_gift_delete' gift.uuid %}"
+                data-cy="delete-gift-button"
+        >
+            Delete
+        </button>
+    </div>
+  {% endif %}
+</div>

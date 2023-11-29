@@ -1,0 +1,25 @@
+{% load crispy_forms_tags %}
+
+<form class="table-row  w-full"
+      hx-put="{% url 'partial_gift_update' gift.uuid %}"
+      hx-target="this"
+      hx-swap="outerHTML"
+>
+    <div class="table-cell py-4 px-6 text-gray-900">{{ form.gift|as_crispy_field }}</div>
+    <div class="table-cell py-4 px-6">{{ form.price|as_crispy_field }}</div>
+    <div class="table-cell py-4 px-6">{{ form.link|as_crispy_field }}</div>
+    <div class="table-cell py-4 px-6">
+        <button type="submit">
+            Save
+        </button>
+    </div>
+    <div class="table-cell py-4 px-6">
+        <button type="button"
+                hx-get="{% url 'partial_gift_detail' gift.uuid %}"
+                hx-target="closest form"
+                hx-swap="outerHTML"
+        >
+            Cancel
+        </button>
+    </div>
+</form>

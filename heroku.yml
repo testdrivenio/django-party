@@ -1,0 +1,8 @@
+setup:
+  addons:
+    - plan: heroku-postgresql
+build:
+  docker:
+    web: Dockerfile
+run:
+  web: gunicorn core.wsgi:application --bind 0.0.0.0:$PORT
