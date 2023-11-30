@@ -22,17 +22,28 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-SECRET_KEY = os.environ.get("SECRET_KEY", default="hussx3!p=8@%iej1k_7vxd*!6acbv7ln93_+_2ia8kb-becqc1")
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY", default="hussx3!p=8@%iej1k_7vxd*!6acbv7ln93_+_2ia8kb-becqc1"
+)
 DEBUG = int(os.environ.get("DEBUG", default=0))
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", default="127.0.0.1 localhost [::1]").split(" ")
+ALLOWED_HOSTS = os.environ.get(
+    "DJANGO_ALLOWED_HOSTS", default="127.0.0.1 localhost [::1]"
+).split(" ")
 
-CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS",  default="http://127.0.0.1:8000 http://localhost:8000").split(" ")
+CSRF_TRUSTED_ORIGINS = os.environ.get(
+    "CSRF_TRUSTED_ORIGINS", default="http://127.0.0.1:8000 http://localhost:8000"
+).split(" ")
 
-SESSION_COOKIE_SECURE = True # ensures cookie is only sent under an HTTPS connection
-CSRF_COOKIE_SECURE = True # ensures CSRF cookie is only sent under an HTTPS connection
-SECURE_HSTS_SECONDS = 604800 # determines how long browsers should remember that your site should only be accessed using HTTPS
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https") #  signifies a request is secure despite using proxy
-ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https" # django-allauth's default protocol for generating URLs
+SESSION_COOKIE_SECURE = True  # ensures cookie is only sent under an HTTPS connection
+CSRF_COOKIE_SECURE = True  # ensures CSRF cookie is only sent under an HTTPS connection
+SECURE_HSTS_SECONDS = 604800  # determines how long browsers should remember that your site should only be accessed using HTTPS
+SECURE_PROXY_SSL_HEADER = (
+    "HTTP_X_FORWARDED_PROTO",
+    "https",
+)  #  signifies a request is secure despite using proxy
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = (
+    "https"  # django-allauth's default protocol for generating URLs
+)
 
 # Application definition
 
@@ -70,34 +81,34 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
 ]
 
-ROOT_URLCONF = 'core.urls'
+ROOT_URLCONF = "core.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'core.wsgi.application'
+WSGI_APPLICATION = "core.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -109,16 +120,16 @@ DATABASES["default"] = dj_database_url.config(default="sqlite:///db.sqlite3")
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -126,9 +137,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -138,7 +149,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STORAGES = {
@@ -150,7 +161,7 @@ STORAGES = {
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "party.CustomUser"
 
@@ -162,16 +173,14 @@ INTERNAL_IPS = [
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
-LOGIN_REDIRECT_URL = "page_party_list" # where to redirect after login
-LOGIN_URL = 'party_login' # where to redirect when login is required to access a view
+LOGIN_REDIRECT_URL = "page_party_list"  # where to redirect after login
+LOGIN_URL = "party_login"  # where to redirect when login is required to access a view
 
 
-AUTHENTICATION_BACKENDS = (
-    "allauth.account.auth_backends.AuthenticationBackend",
-)
+AUTHENTICATION_BACKENDS = ("allauth.account.auth_backends.AuthenticationBackend",)
 
-SITE_ID = 1 # needs to match the Site ID in the admin
-ACCOUNT_EMAIL_VERIFICATION = "none" # no email verification needed
-SOCIALACCOUNT_LOGIN_ON_GET = True # skip additional confirm page, less secure
-ACCOUNT_LOGOUT_ON_GET = True # skip the confirm logout page
+SITE_ID = 1  # needs to match the Site ID in the admin
+ACCOUNT_EMAIL_VERIFICATION = "none"  # no email verification needed
+SOCIALACCOUNT_LOGIN_ON_GET = True  # skip additional confirm page, less secure
+ACCOUNT_LOGOUT_ON_GET = True  # skip the confirm logout page
 ACCOUNT_UNIQUE_EMAIL = True

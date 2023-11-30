@@ -42,7 +42,7 @@ def create_gift():
             gift=kwargs.get("gift", "Test gift"),
             price=kwargs.get("price", 12.5),
             link=kwargs.get("price", "https://testlink.com"),
-            party=party
+            party=party,
         )
 
     return _create_gift
@@ -54,7 +54,7 @@ def create_guest():
         return Guest.objects.create(
             name=kwargs.get("name", "Anna Boleyn"),
             attending=kwargs.get("attending", True),
-            party=party
+            party=party,
         )
 
     return _create_guest

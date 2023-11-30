@@ -32,7 +32,11 @@ def mark_attending_partial(request, party_uuid):
 
     guests = Guest.objects.filter(party_id=party_uuid)
 
-    return render(request, "party/guest_list/partial_guest_filter_and_list.html", {"guests": guests, "party_id": party_uuid})
+    return render(
+        request,
+        "party/guest_list/partial_guest_filter_and_list.html",
+        {"guests": guests, "party_id": party_uuid},
+    )
 
 
 @login_required
@@ -43,7 +47,11 @@ def mark_not_attending_partial(request, party_uuid):
 
     guests = Guest.objects.filter(party_id=party_uuid)
 
-    return render(request, "party/guest_list/partial_guest_filter_and_list.html", {"guests": guests, "party_id": party_uuid})
+    return render(
+        request,
+        "party/guest_list/partial_guest_filter_and_list.html",
+        {"guests": guests, "party_id": party_uuid},
+    )
 
 
 def filter_attending(party_id, **kwargs):
@@ -55,22 +63,28 @@ def filter_not_attending(party_id, **kwargs):
 
 
 def filter_attending_and_search(party_id, **kwargs):
-    return Guest.objects.filter(party_id=party_id, attending=True, name__icontains=kwargs["search_text"])
+    return Guest.objects.filter(
+        party_id=party_id, attending=True, name__icontains=kwargs["search_text"]
+    )
 
 
 def filter_not_attending_and_search(party_id, **kwargs):
-    return Guest.objects.filter(party_id=party_id, attending=False, name__icontains=kwargs["search_text"])
+    return Guest.objects.filter(
+        party_id=party_id, attending=False, name__icontains=kwargs["search_text"]
+    )
 
 
 def filter_search(party_id, **kwargs):
-    return Guest.objects.filter(party_id=party_id, name__icontains=kwargs["search_text"])
+    return Guest.objects.filter(
+        party_id=party_id, name__icontains=kwargs["search_text"]
+    )
 
 
 def filter_default(party_id, **kwargs):
     return Guest.objects.filter(party_id=party_id)
 
 
-QUERY_FILTERS= {
+QUERY_FILTERS = {
     ("attending", False): filter_attending,
     ("not_attending", False): filter_not_attending,
     ("attending", True): filter_attending_and_search,
@@ -84,8 +98,12 @@ def filter_guests_partial(request, party_uuid):
     attending_filter = request.POST.get("attending_filter")
     search_text = request.POST.get("guest_search")
 
-    query_filter = QUERY_FILTERS.get((attending_filter, bool(search_text)), filter_default)
+    query_filter = QUERY_FILTERS.get(
+        (attending_filter, bool(search_text)), filter_default
+    )
 
     guests = query_filter(party_id=party_uuid, search_text=search_text)
 
-    return render(request, "party/guest_list/partial_guest_list.html", {"guests": guests})
+    return render(
+        request, "party/guest_list/partial_guest_list.html", {"guests": guests}
+    )

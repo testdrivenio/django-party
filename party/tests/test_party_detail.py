@@ -8,7 +8,9 @@ from party.models import Party
 
 
 @pytest.mark.django_db
-def test_party_detail_page_returns_whole_page_with_single_party(authenticated_client, create_user, django_user_model, create_party):
+def test_party_detail_page_returns_whole_page_with_single_party(
+    authenticated_client, create_user, django_user_model, create_party
+):
     party = create_party(organizer=create_user)
 
     url = reverse("page_single_party", args=[party.uuid])
@@ -19,7 +21,9 @@ def test_party_detail_page_returns_whole_page_with_single_party(authenticated_cl
 
 
 @pytest.mark.django_db
-def test_party_detail_partial_get_method_returns_a_form_prefilled_with_party_details(authenticated_client, create_user, django_user_model, create_party):
+def test_party_detail_partial_get_method_returns_a_form_prefilled_with_party_details(
+    authenticated_client, create_user, django_user_model, create_party
+):
     party = create_party(organizer=create_user)
 
     url = reverse("partial_party_detail", args=[party.uuid])
@@ -31,7 +35,9 @@ def test_party_detail_partial_get_method_returns_a_form_prefilled_with_party_det
 
 
 @pytest.mark.django_db
-def test_party_detail_partial_put_method_returns_updated_party_details(authenticated_client, create_user, create_party):
+def test_party_detail_partial_put_method_returns_updated_party_details(
+    authenticated_client, create_user, create_party
+):
     party = create_party(organizer=create_user)
 
     url = reverse("partial_party_detail", args=[party.uuid])
@@ -45,7 +51,9 @@ def test_party_detail_partial_put_method_returns_updated_party_details(authentic
         }
     )
 
-    response = authenticated_client(create_user).put(url, content_type="application/json", data=data)
+    response = authenticated_client(create_user).put(
+        url, content_type="application/json", data=data
+    )
 
     assert response.status_code == 200
     assert Party.objects.get(uuid=party.uuid).party_date == datetime.date(2025, 6, 6)

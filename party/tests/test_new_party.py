@@ -20,7 +20,9 @@ def test_create_party(authenticated_client, create_user):
     assert Party.objects.count() == 1
 
 
-def test_create_party_invitation_too_short_returns_error(authenticated_client, create_user):
+def test_create_party_invitation_too_short_returns_error(
+    authenticated_client, create_user
+):
     url = reverse("page_new_party")
     data = {
         "party_date": "2025-06-06",

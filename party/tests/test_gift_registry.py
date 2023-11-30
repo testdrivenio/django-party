@@ -38,7 +38,9 @@ def test_gift_detail_partial_returns_gift_detail_including_party(
     assert response.context_data["party"] == party
 
 
-def test_partial_gift_update_returns_gift_update_form(authenticated_client, create_user, create_party, create_gift):
+def test_partial_gift_update_returns_gift_update_form(
+    authenticated_client, create_user, create_party, create_gift
+):
     party = create_party(create_user)
     gift = create_gift(party=party)
 
@@ -50,7 +52,9 @@ def test_partial_gift_update_returns_gift_update_form(authenticated_client, crea
     assert response.context["form"].instance == gift
 
 
-def test_partial_gift_update_updates_gift_and_returns_its_details_including_party_id(authenticated_client, create_user, create_party, create_gift):
+def test_partial_gift_update_updates_gift_and_returns_its_details_including_party_id(
+    authenticated_client, create_user, create_party, create_gift
+):
     party = create_party(create_user)
     gift = create_gift(party=party)
 
@@ -63,7 +67,9 @@ def test_partial_gift_update_updates_gift_and_returns_its_details_including_part
     )
 
     url = reverse("partial_gift_update", args=[gift.uuid])
-    response = authenticated_client(create_user).put(url, content_type="application/json", data=data)
+    response = authenticated_client(create_user).put(
+        url, content_type="application/json", data=data
+    )
 
     assert Gift.objects.get(uuid=gift.uuid).gift == "Updated gift"
     assert Gift.objects.get(uuid=gift.uuid).price == 50.0
@@ -74,7 +80,9 @@ def test_partial_gift_update_updates_gift_and_returns_its_details_including_part
     assert response.context["party"] == party
 
 
-def test_partial_gift_delete_removes_gift(authenticated_client, create_user, create_party, create_gift):
+def test_partial_gift_delete_removes_gift(
+    authenticated_client, create_user, create_party, create_gift
+):
     party = create_party(organizer=create_user)
     gift = create_gift(party=party)
 
@@ -87,7 +95,9 @@ def test_partial_gift_delete_removes_gift(authenticated_client, create_user, cre
     assert Gift.objects.count() == 0
 
 
-def test_get_partial_new_gift_returns_create_gift_form_with_party(authenticated_client, create_user, create_party):
+def test_get_partial_new_gift_returns_create_gift_form_with_party(
+    authenticated_client, create_user, create_party
+):
     party = create_party(organizer=create_user)
 
     url = reverse("partial_new_gift", args=[party.uuid])
@@ -99,7 +109,9 @@ def test_get_partial_new_gift_returns_create_gift_form_with_party(authenticated_
     assert response.context["party_id"] == party.uuid
 
 
-def test_put_partial_new_gift_saves_gift(authenticated_client, create_user, create_party):
+def test_put_partial_new_gift_saves_gift(
+    authenticated_client, create_user, create_party
+):
     party = create_party(organizer=create_user)
 
     data = {

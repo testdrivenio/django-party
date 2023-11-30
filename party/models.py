@@ -15,7 +15,11 @@ class Party(models.Model):
     party_time = models.TimeField()
     invitation = models.TextField()
     venue = models.CharField(max_length=200)
-    organizer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="organized_parties")
+    organizer = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="organized_parties",
+    )
 
     class Meta:
         verbose_name_plural = "parties"
