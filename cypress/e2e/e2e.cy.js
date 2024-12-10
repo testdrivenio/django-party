@@ -1,3 +1,5 @@
+// cypress/e2e/e2e.cy.js
+
 function fillAndSubmitPartyForm(party) {
     cy.get('input[name="party_date"]').clear().type(party.party_date);
     cy.get('input[name="party_time"]').clear().type(party.party_time);

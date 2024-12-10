@@ -1,10 +1,11 @@
 import datetime
 
-from crispy_forms.helper import FormHelper
+from crispy_forms.helper import FormHelper  # NEW
 from django import forms
 from django.urls import reverse_lazy
 
-from .models import Party, Gift
+from .models import Party, Gift  # NEW
+
 
 
 class PartyForm(forms.ModelForm):
@@ -15,6 +16,7 @@ class PartyForm(forms.ModelForm):
             "party_date": forms.DateInput(
                 attrs={
                     "type": "date",
+                    # NEW
                     "hx-get": reverse_lazy("partial_check_party_date"),
                     "hx-trigger": "blur",
                     "hx-swap": "outerHTML",
@@ -26,6 +28,7 @@ class PartyForm(forms.ModelForm):
                 attrs={
                     "rows": 10,
                     "cols": 30,
+                    # NEW
                     "hx-get": reverse_lazy("partial_check_invitation"),
                     "hx-trigger": "blur",
                     "hx-swap": "outerHTML",
@@ -51,7 +54,9 @@ class PartyForm(forms.ModelForm):
         return party_date
 
 
+
 class GiftForm(forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()

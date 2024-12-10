@@ -1,5 +1,8 @@
+<!--party/templates/party/gift_registry/partial_gift_new.html-->
+
 {% load crispy_forms_tags %}
 
+<!--- UPDATED --->
 <form class="table-row"
       hx-post="{% url 'partial_new_gift' party_id %}"
       hx-target="this"
@@ -7,6 +10,7 @@
       x-data
       x-ref="new_gift_form"
 >
+<!--- / UPDATED --->
     <div class="table-cell py-4 px-6 text-gray-900">{{ form.gift|as_crispy_field }}</div>
     <div class="table-cell py-4 px-6">{{ form.price|as_crispy_field }}</div>
     <div class="table-cell py-4 px-6">{{ form.link|as_crispy_field }}</div>
@@ -15,10 +19,11 @@
             Add
         </button>
     </div>
-
+   <!--- NEW --->
     <div class="table-cell py-4 px-6">
         <button type="button" @click="$refs.new_gift_form.remove()">
             Cancel
         </button>
     </div>
+   <!--- / NEW --->
 </form>

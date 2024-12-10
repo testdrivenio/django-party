@@ -3,7 +3,7 @@
 ###########
 
 # pull official base image
-FROM python:3.12-slim-bookworm as builder
+FROM python:3.13-slim-bookworm as builder
 
 # install system dependencies
 RUN apt-get update \
@@ -28,15 +28,19 @@ ENV PYTHONUNBUFFERED 1
 COPY . .
 RUN pip install --upgrade pip && pip wheel --no-cache-dir --wheel-dir /usr/src/app/wheels -r requirements.txt
 
+# Install Node.js dependencies
+COPY package.json package-lock.json ./
+RUN npm install
+
 # Build Tailwind
-RUN pip install -r requirements.txt && python manage.py tailwind install && python manage.py tailwind build && python manage.py collectstatic --noinput
+RUN pip install -r requirements.txt && npm run tailwind:build && python manage.py collectstatic --noinput
 
 #########
 # FINAL #
 #########
 
 # pull official base image
-FROM python:3.12-slim-bookworm
+FROM python:3.13-slim-bookworm
 
 # upgrade system packages
 RUN apt-get update && apt-get upgrade -y && apt-get clean

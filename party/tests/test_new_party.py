@@ -1,3 +1,5 @@
+# party/tests/test_new_party.py
+
 import pytest
 from django.urls import reverse
 
@@ -20,9 +22,7 @@ def test_create_party(authenticated_client, create_user):
     assert Party.objects.count() == 1
 
 
-def test_create_party_invitation_too_short_returns_error(
-    authenticated_client, create_user
-):
+def test_create_party_invitation_too_short_returns_error(authenticated_client, create_user):
     url = reverse("page_new_party")
     data = {
         "party_date": "2025-06-06",
@@ -37,7 +37,7 @@ def test_create_party_invitation_too_short_returns_error(
     assert "You really should write an invitation." in response.content.decode()
     assert Party.objects.count() == 0
 
-
+# NEW
 def test_create_party_past_date_returns_error(authenticated_client, create_user):
     url = reverse("page_new_party")
 

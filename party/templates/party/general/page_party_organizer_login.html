@@ -1,12 +1,15 @@
+<!--party/templates/party/general/page_party_organizer_login.html-->
+
 {% extends 'party/base.html' %}
 
 {% load crispy_forms_tags %}
-{% load socialaccount %}
+{% load socialaccount %}  <!-- new -->
 
 {% block content %}
     <div class="max-w-6xl mx-auto">
         <div class="drop-shadow-lg my-10 p-6 bg-white rounded-lg text-center">
-            <p class="p-4 mb-6 bg-red-200 border-custom-red border-2 rounded-md">You have to be logged in to use this app.</p>
+            <p class="p-4 mb-6 bg-red-200 border-custom-red border-2 rounded-md">You have to be logged in to use this
+                app.</p>
             <form method="post" action="{% url 'party_login' %}" class="">
                 {% csrf_token %}
                 {{ form.username|as_crispy_field }}
