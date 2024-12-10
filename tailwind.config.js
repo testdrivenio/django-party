@@ -4,7 +4,7 @@ module.exports = {
         './party/templates/party/**/*.html',
         './party/static/party/js/**/*.js',
         './party/static/party/src/**/*.css',
-        '../../**/*.py'
+        './**/*.py'
     ],
     safelist: [
         'bg-green-800'
