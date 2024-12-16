@@ -1,5 +1,6 @@
+<!--party/templates/party/base.html-->
+
 {% load static %}
-{% load static tailwind_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,7 +10,7 @@
     <script type="text/javascript" src="{% static '/party/js/htmx.min.js' %}"></script>
     <script type="text/javascript" src="{% static '/party/js/alpine.min.js' %}" defer></script>
     <script type="text/javascript" src="{% static '/party/js/remove-me.js' %}"></script>
-    {% tailwind_css %}
+    <link href="{% static '/party/css/tailwind_output.css' %}" rel="stylesheet">
 </head>
 <body class="bg-custom-powder-light" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
     <nav class="bg-custom-red">
@@ -26,6 +27,7 @@
             New party
         </a>
 
+        <!-- new -->
         {% if user.is_authenticated %}
         <a href="{% url 'account_logout' %}" class="inline-block p-4 text-custom-powder-light float-right">
             Logout
@@ -35,6 +37,7 @@
             Login
         </a>
         {% endif %}
+        <!-- / new -->
     </nav>
 <main class="container p-5 m-auto">
     {% block content %}

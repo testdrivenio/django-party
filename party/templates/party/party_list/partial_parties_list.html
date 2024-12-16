@@ -1,3 +1,5 @@
+<!--party/templates/party/parties_list/partial_parties_list.html-->
+
 {% for party in parties %}
     <!--this part is different-->
     {% if forloop.last and page_obj.has_next %}
@@ -17,12 +19,7 @@
         </div>
         <div class="mt-4">
             <a href="{% url 'page_single_party' party.uuid %}" class="text-custom-blue hover:text-custom-blue-light mr-4">Party details</a>
-            <a href="{% url 'page_gift_registry' party.uuid %}"
-               class="text-custom-blue hover:text-custom-blue-light mr-4"
-               data-cy="gift-registry-link"
-            >
-                Gift registry
-            </a>
+            <a href="{% url 'page_gift_registry' party.uuid %}" class="text-custom-blue hover:text-custom-blue-light mr-4" data-cy="gift-registry-link">Gift registry</a>
             <a href="{% url 'page_guest_list' party.uuid %}" class="text-custom-blue hover:text-custom-blue-light">Guest List</a>
         </div>
     </div>

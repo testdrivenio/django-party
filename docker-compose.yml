@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   party_db:
-    image: postgres:16-alpine
+    image: postgres:17-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:

@@ -1,8 +1,11 @@
+# party/views/gift_registry_views.py
+
 from django.http import QueryDict
 from django.shortcuts import get_object_or_404, render
 from django.views import View
-from django.views.decorators.http import require_http_methods
 from django.views.generic import DetailView, ListView
+from django.views.decorators.http import require_http_methods  # NEW
+
 
 from party.forms import GiftForm
 from party.models import Gift, Party
@@ -53,16 +56,12 @@ class GiftUpdateFormPartial(View):
         if form.is_valid():
             form.save()
 
-            return render(
-                request,
-                "party/gift_registry/partial_gift_detail.html",
-                {"gift": gift, "party": gift.party},
-            )
+            return render(request, "party/gift_registry/partial_gift_detail.html", {"gift": gift, "party": gift.party})
 
         return render(
             request,
             "party/gift_registry/partial_gift_update.html",
-            {"form": form, "gift": gift},
+            {"form": form, "gift": gift}
         )
 
 
@@ -75,16 +74,14 @@ def delete_gift_partial(request, gift_uuid):
 
 
 class GiftCreateFormPartial(View):
+
     def get(self, request, party_uuid, *args, **kwargs):
         form = GiftForm()
 
-        return render(
-            request,
-            "party/gift_registry/partial_gift_new.html",
-            {"form": form, "party_id": party_uuid},
-        )
+        return render(request, "party/gift_registry/partial_gift_new.html", {"form": form, "party_id": party_uuid})
 
     def post(self, request, party_uuid, *args, **kwargs):
+
         party = get_object_or_404(Party, uuid=party_uuid)
         form = GiftForm(request.POST)
 
@@ -94,13 +91,7 @@ class GiftCreateFormPartial(View):
             gift.save()
 
             return render(
-                request,
-                "party/gift_registry/partial_gift_detail.html",
-                {"gift": gift, "party": party},
+                request, "party/gift_registry/partial_gift_detail.html", {"gift": gift, "party": party}
             )
 
-        return render(
-            request,
-            "party/gift_registry/partial_gift_new.html",
-            {"form": form, "party_id": party_uuid},
-        )
+        return render(request, "party/gift_registry/partial_gift_new.html", {"form": form, "party_id": party_uuid})

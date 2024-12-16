@@ -1,3 +1,5 @@
+<!--party/templates/party/party_detail/partial_party_edit_form.html-->
+
 {% load crispy_forms_tags %}
 
 <div id="party-form">
@@ -5,7 +7,7 @@
           hx-target="#party-form"
           hx-swap="outerHTML"
     >
-        <div class="grid grid-cols-1 grid-cols-3 m-3">
+        <div class="grid grid-cols-3 m-3">
             <div class="mx-auto">
                 {{ form.party_date|as_crispy_field }}
             </div>

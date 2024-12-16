@@ -1,11 +1,15 @@
+<!--party/templates/party/guest_list/partial_guest_list.html-->
+
 {% for guest in guests %}
     <div class="table-row">
         <div class="table-cell py-4 px-6 w-4">
+            <!--  Alpine added  -->
             <input type='checkbox'
                    value="{{ guest.uuid }}"
                    name="guest_ids"
                    x-bind:checked="selected_all"
             >
+           <!-- /  Alpine added  -->
         </div>
         <div class="table-cell py-4 px-4 text-left">
             {{ guest.name }}
