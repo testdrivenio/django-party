@@ -26,6 +26,7 @@ def test_gift_registry_page_lists_gifts_for_party_by_id(
     assert list(response.context_data["gifts"]) == [gift_1, gift_2]
 
 
+@pytest.mark.django_db
 def test_gift_detail_partial_returns_gift_detail_including_party(
     authenticated_client, create_user, django_user_model, create_party, create_gift
 ):
@@ -40,6 +41,7 @@ def test_gift_detail_partial_returns_gift_detail_including_party(
     assert response.context_data["party"] == party
 
 
+@pytest.mark.django_db
 def test_partial_gift_update_returns_gift_update_form(authenticated_client, create_user, create_party, create_gift):
     party = create_party(create_user)
     gift = create_gift(party=party)
@@ -52,6 +54,7 @@ def test_partial_gift_update_returns_gift_update_form(authenticated_client, crea
     assert response.context["form"].instance == gift
 
 
+@pytest.mark.django_db
 def test_partial_gift_update_updates_gift_and_returns_its_details_including_party_id(authenticated_client, create_user, create_party, create_gift):
     party = create_party(create_user)
     gift = create_gift(party=party)
@@ -76,6 +79,7 @@ def test_partial_gift_update_updates_gift_and_returns_its_details_including_part
     assert response.context["party"] == party
 
 
+@pytest.mark.django_db
 def test_partial_gift_delete_removes_gift(authenticated_client, create_user, create_party, create_gift):
     party = create_party(organizer=create_user)
     gift = create_gift(party=party)
@@ -89,6 +93,7 @@ def test_partial_gift_delete_removes_gift(authenticated_client, create_user, cre
     assert Gift.objects.count() == 0
 
 
+@pytest.mark.django_db
 def test_get_partial_new_gift_returns_create_gift_form_with_party(authenticated_client, create_user, create_party):
     party = create_party(organizer=create_user)
 
@@ -101,6 +106,7 @@ def test_get_partial_new_gift_returns_create_gift_form_with_party(authenticated_
     assert response.context["party_id"] == party.uuid
 
 
+@pytest.mark.django_db
 def test_put_partial_new_gift_saves_gift(authenticated_client, create_user, create_party):
     party = create_party(organizer=create_user)
 

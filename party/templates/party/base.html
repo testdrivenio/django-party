@@ -27,7 +27,6 @@
             New party
         </a>
 
-        <!-- new -->
         {% if user.is_authenticated %}
         <a href="{% url 'account_logout' %}" class="inline-block p-4 text-custom-powder-light float-right">
             Logout
@@ -37,7 +36,6 @@
             Login
         </a>
         {% endif %}
-        <!-- / new -->
     </nav>
 <main class="container p-5 m-auto">
     {% block content %}

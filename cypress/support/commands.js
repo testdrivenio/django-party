@@ -1,5 +1,3 @@
-// cypress/support/commands.js
-
 Cypress.Commands.add('login', () => {
     cy.session("logged-in-user", () => {
         const username = Cypress.env('username');

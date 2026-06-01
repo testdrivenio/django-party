@@ -10,7 +10,7 @@ from party.models import Party
 def test_create_party(authenticated_client, create_user):
     url = reverse("page_new_party")
     data = {
-        "party_date": "2025-06-06",
+        "party_date": "2029-06-06",
         "party_time": "18:00:00",
         "venue": "My Venue",
         "invitation": "Come to my party!",
@@ -22,10 +22,11 @@ def test_create_party(authenticated_client, create_user):
     assert Party.objects.count() == 1
 
 
+@pytest.mark.django_db
 def test_create_party_invitation_too_short_returns_error(authenticated_client, create_user):
     url = reverse("page_new_party")
     data = {
-        "party_date": "2025-06-06",
+        "party_date": "2029-06-06",
         "party_time": "18:00:00",
         "venue": "My Venue",
         "invitation": "Too short",
@@ -37,7 +38,8 @@ def test_create_party_invitation_too_short_returns_error(authenticated_client, c
     assert "You really should write an invitation." in response.content.decode()
     assert Party.objects.count() == 0
 
-# NEW
+
+@pytest.mark.django_db
 def test_create_party_past_date_returns_error(authenticated_client, create_user):
     url = reverse("page_new_party")
 
@@ -55,6 +57,7 @@ def test_create_party_past_date_returns_error(authenticated_client, create_user)
     assert Party.objects.count() == 0
 
 
+@pytest.mark.django_db
 def test_partial_check_party_date(authenticated_client, create_user):
     url = reverse("partial_check_party_date")
     data = {
@@ -68,6 +71,7 @@ def test_partial_check_party_date(authenticated_client, create_user):
     assert "You chose a date in the past." in response.content.decode()
 
 
+@pytest.mark.django_db
 def test_partial_check_invitation(authenticated_client, create_user):
     url = reverse("partial_check_invitation")
     data = {

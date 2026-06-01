@@ -1,8 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Roboto&display=swap'); /* NEW */
+/* static/party/src/main.css */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Roboto&display=swap');
+
+@import "tailwindcss";
+
+@source inline("bg-green-800");
+
+@theme {
+    --font-sans: "Roboto", sans-serif;
+    --font-roboto: "Roboto", sans-serif;
+    --font-dancing-script: "Dancing Script", cursive;
+
+    --color-custom-powder-light: #F1ECE6;
+    --color-custom-powder: #D8C2BE;
+    --color-custom-blue: #1F4470;
+    --color-custom-blue-light: #4A7AB0;
+    --color-custom-red: #6E2A40;
+}
+
 
 @layer components {
   .btn-default {

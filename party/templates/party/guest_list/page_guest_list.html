@@ -22,14 +22,22 @@
     </div>
 
     <div id="guest_list_container">
-        <div class="w-2/5 min-w-fit bg-white shadow-md m-auto">
+        <div class="w-1/2 min-w-fit bg-white shadow-md m-auto">
             {% include 'party/guest_list/partial_guest_filter.html' %}
 
-            <form class="table text-left text-gray-500 table-fixed min-w-fit p-8">
-                <div class="table-row-group" id="guests">
-                    {% include 'party/guest_list/partial_guest_list.html' %}
+            <div x-data="{ selected_all: false }">
+                <div class="pl-14 py-1 text-gray-500 border-b-gray-200 border-b">
+                    <input type="checkbox" x-model="selected_all" class="border-gray-400">
+                    <span class="p-1 text-xs"
+                        x-text="selected_all ? 'Unselect all' : 'Select all'"
+                    ></span>
                 </div>
-            </form>
+                <form class="table text-left text-gray-500 table-fixed min-w-fit p-8 pt-0">
+                    <div class="table-row-group" id="guests">
+                        {% include 'party/guest_list/partial_guest_list.html' %}
+                    </div>
+                </form>
+            </div>
 
             <div hx-include="#guests"
                 hx-target="#guests"

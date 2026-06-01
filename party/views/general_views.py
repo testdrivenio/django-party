@@ -1,3 +1,5 @@
+# party/views/general_views.py
+
 from django.contrib.auth.views import LoginView
 
 

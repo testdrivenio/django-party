@@ -1,7 +1,6 @@
-<!--party/templates/party/parties_list/partial_parties_list.html-->
+<!--party/templates/party/party_list/partial_parties_list.html-->
 
 {% for party in parties %}
-    <!--this part is different-->
     {% if forloop.last and page_obj.has_next %}
       <div class="col-span-1 flex flex-col border-2 p-10 border-custom-red bg-white"
           hx-target="this"
@@ -12,7 +11,6 @@
     {% else %}
     <div class="col-span-1 flex flex-col border-2 p-10 border-custom-red bg-white">
     {% endif %}
-    <!-- / this part is different-->
         <h2 class="mb-2 font-bold text-2xl text-custom-red uppercase">{{ party.party_date }}, {{ party.party_time }}, {{ party.venue }}</h2>
         <div>
             {{ party.invitation|truncatewords:120 }}

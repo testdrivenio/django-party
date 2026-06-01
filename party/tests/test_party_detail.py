@@ -1,4 +1,4 @@
-# party/tests/test_party_details.py
+# party/tests/test_party_detail.py
 
 import datetime
 from urllib.parse import urlencode
@@ -40,7 +40,7 @@ def test_party_detail_partial_put_method_returns_updated_party_details(authentic
 
     data = urlencode(
         {
-            "party_date": "2025-06-06",
+            "party_date": "2029-06-06",
             "party_time": "18:00:00",
             "venue": "New Venue",
             "invitation": "New Bla bla",
@@ -50,7 +50,7 @@ def test_party_detail_partial_put_method_returns_updated_party_details(authentic
     response = authenticated_client(create_user).put(url, content_type="application/json", data=data)
 
     assert response.status_code == 200
-    assert Party.objects.get(uuid=party.uuid).party_date == datetime.date(2025, 6, 6)
+    assert Party.objects.get(uuid=party.uuid).party_date == datetime.date(2029, 6, 6)
     assert Party.objects.get(uuid=party.uuid).party_time == datetime.time(18, 0)
     assert Party.objects.get(uuid=party.uuid).venue == "New Venue"
     assert Party.objects.get(uuid=party.uuid).invitation == "New Bla bla"

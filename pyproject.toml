@@ -1,0 +1,26 @@
+[project]
+name = "django-party"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.13"
+dependencies = [
+    "crispy-tailwind==1.0.3",
+    "dj-database-url==3.1.2",
+    "django==6.0.5",
+    "django-allauth[socialaccount]==65.17.0",
+    "django-browser-reload==1.21.0",
+    "django-crispy-forms==2.6",
+    "gunicorn==26.0.0",
+    "psycopg[binary]==3.3.4",
+    "whitenoise==6.12.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==9.0.3",
+    "pytest-django==4.12.0",
+]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "core.settings"
+python_files = ["tests.py", "test_*.py"]

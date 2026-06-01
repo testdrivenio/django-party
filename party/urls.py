@@ -5,6 +5,10 @@ from django.urls import path
 from . import views
 
 
+general_patterns = [
+    path("login/", views.LoginPage.as_view(), name="party_login"),
+]
+
 list_parties_urlpatterns = [
    path("", views.PartyListPage.as_view(), name="page_party_list"),
 ]
@@ -32,11 +36,7 @@ guest_list_urlpatterns = [
     path("party/<uuid:party_uuid>/guests/", views.GuestListPage.as_view(), name="page_guest_list"),
     path("party/<uuid:party_uuid>/guests/mark-attending/", views.mark_attending_partial, name="partial_mark_attending"),
     path("party/<uuid:party_uuid>/guests/mark-not-attending/", views.mark_not_attending_partial, name="partial_mark_not_attending"),
-    path("party/<uuid:party_uuid>/guests/filter/", views.filter_guests_partial, name="partial_filter_guests"),  # NEW
-]
-
-general_patterns = [
-    path("login/", views.LoginPage.as_view(), name="party_login"),
+    path("party/<uuid:party_uuid>/guests/filter/", views.filter_guests_partial, name="partial_filter_guests"),
 ]
 
 

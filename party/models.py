@@ -1,5 +1,3 @@
-# party/models.py
-
 import uuid
 
 from django.conf import settings

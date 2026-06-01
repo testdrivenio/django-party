@@ -1,6 +1,5 @@
 <!--party/templates/party/guest_list/partial_guest_filter.html-->
 
-<!--id and hx-swap-oob added-->
 <form id="guest_filter_form"
       hx-swap-oob="true"
       hx-post="{% url 'partial_filter_guests' party_id %}"
@@ -11,7 +10,7 @@
     <div class="bg-gray-50 p-4 grid grid-cols-2">
         <div class="">
             <input type="search"
-                   class="p-2 bg-transparent border-x-transparent border-t-transparent border-b-gray-400 focus:border-x-transparent focus:border-t-transparent focus:border-b-gray-600 focus:ring-0"
+                   class="p-2 bg-transparent border border-x-transparent border-t-transparent border-b-gray-400 focus:border-x-transparent focus:border-t-transparent focus:border-b-gray-600 focus:ring-0"
                    placeholder="Search guests"
                    id="guest_search"
                    name="guest_search"

@@ -5,7 +5,7 @@ import datetime
 import pytest
 from django.urls import reverse
 
-from party.views import PartyListPage  # NEW
+from party.views import PartyListPage
 
 
 @pytest.mark.django_db
@@ -41,7 +41,8 @@ def test_party_list_page_returns_list_of_users_future_parties(authenticated_clie
     assert len(parties_list) == 2
     assert parties_list == [valid_party_1, valid_party_2]
 
-# NEW
+
+@pytest.mark.django_db
 def test_party_list_page_returns_paginated_list_of_parties(authenticated_client, create_user, create_party, django_user_model):
     today = datetime.date.today()
 
@@ -60,7 +61,8 @@ def test_party_list_page_returns_paginated_list_of_parties(authenticated_client,
     assert response.context["page_obj"].has_previous() is True
     assert len(list(response.context["parties"])) == 1
 
-# NEW
+
+@pytest.mark.django_db
 def test_party_list_page_returns_different_template_for_htmx_request(authenticated_client, create_user):
     url = reverse("page_party_list")
     client = authenticated_client(create_user)
@@ -68,5 +70,5 @@ def test_party_list_page_returns_different_template_for_htmx_request(authenticat
     response = client.get(url)
     assert response.template_name[0] == "party/party_list/page_parties_list.html"
 
-    response = client.get(url, HTTP_HX_REQUEST="")
+    response = client.get(url, HTTP_HX_REQUEST="true")
     assert response.template_name[0] == "party/party_list/partial_parties_list.html"

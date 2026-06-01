@@ -1,11 +1,12 @@
 # party/tests/test_guest_list.py
-import pytest  # NEW
 
+import pytest
 from django.urls import reverse
 
 from party.models import Guest
 
 
+@pytest.mark.django_db
 def test_page_guest_list_lists_guests_for_certain_party(authenticated_client, create_user, create_party, create_guest):
     party = create_party(organizer=create_user, venue="Main venue")
     guest_1 = create_guest(party=party, name="Anna Brown")
@@ -25,6 +26,7 @@ def test_page_guest_list_lists_guests_for_certain_party(authenticated_client, cr
     assert len(response_guests_list) == 2
 
 
+@pytest.mark.django_db
 def test_mark_guest_attending(authenticated_client, create_user, create_party, create_guest):
     party = create_party(organizer=create_user)
     guest_1 = create_guest(party=party, attending=False)
@@ -40,46 +42,29 @@ def test_mark_guest_attending(authenticated_client, create_user, create_party, c
 
     assert response.status_code == 200
     assert len(list(response.context["guests"])) == 2
-    assert response.context["party_id"] == party.uuid  # assertion added
+    assert response.context["party_id"] == party.uuid
 
 
-def test_mark_guest_not_attending(authenticated_client, create_user, create_party, create_guest):
-    party = create_party(organizer=create_user)
-    guest_1 = create_guest(party=party, attending=True)
-    guest_2 = create_guest(party=party, attending=True)
-
-    url = reverse("partial_mark_not_attending", args=[party.uuid])
-
-    data = f"guest_ids={guest_1.uuid}"
-    response = authenticated_client(create_user).put(url, data=data, content_type="application/x-www-form-urlencoded")
-
-    assert Guest.objects.get(uuid=guest_1.uuid).attending is False
-    assert Guest.objects.get(uuid=guest_2.uuid).attending is True
-
-    assert response.status_code == 200
-    assert len(list(response.context["guests"])) == 2
-    assert response.context["party_id"] == party.uuid  # assertion added
-
-
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     "guest_attending_status,  search_text, attending_filter, expected_number_of_filtered_guests",
     [
-        (True, "an", "all", 1),  # should pass, this is the same as before
-        (True, "be", "all", 0),  # should pass, this is the same as before
-        (True, "be", "attending", 0),  # should pass since search doesn't match
-        (True, "be", "not_attending", 0),  # should pass since search doesn't match
-        (True, "an", "attending", 1),  # should pass since search matches and status isn't checked
-        (True, "an", "not_attending", 0),  # should fail since search matches but filter doesn't
-        (True, "", "attending", 1),  # should pass since empty search matches the result
-        (True, "", "not_attending", 0),  # should fail, since search matches, but filter doesn't
-        (False, "an", "all", 1),  # should pass since filter is "all"
-        (False, "be", "all", 0),  # should pass since filter is "all"
-        (False, "be", "attending", 0),  # should pass since search doesn't match
-        (False, "be", "not_attending", 0),  # should pass since search doesn't match
-        (False, "an", "attending", 0),  # should fail since "an" matches, but "attending" shouldn't
-        (False, "an", "not_attending", 1),  # should pass since filter matches even if not checked
-        (False, "", "attending", 0), # should fail since filter doesn't match output
-        (False, "", "not_attending", 1), # should pass since filter matches output even if not checked
+        (True, "an", "all", 1),
+        (True, "be", "all", 0),
+        (True, "be", "attending", 0),
+        (True, "be", "not_attending", 0),
+        (True, "an", "attending", 1),
+        (True, "an", "not_attending", 0),
+        (True, "", "attending", 1),
+        (True, "", "not_attending", 0),
+        (False, "an", "all", 1),
+        (False, "be", "all", 0),
+        (False, "be", "attending", 0),
+        (False, "be", "not_attending", 0),
+        (False, "an", "attending", 0),
+        (False, "an", "not_attending", 1),
+        (False, "", "attending", 0),
+        (False, "", "not_attending", 1),
     ],
 )
 def test_filter_guest_by_status_and_search(
@@ -102,3 +87,22 @@ def test_filter_guest_by_status_and_search(
     response = authenticated_client(create_user).post(url, data)
 
     assert len(response.context["guests"]) == expected_number_of_filtered_guests
+
+
+@pytest.mark.django_db
+def test_mark_guest_not_attending(authenticated_client, create_user, create_party, create_guest):
+    party = create_party(organizer=create_user)
+    guest_1 = create_guest(party=party, attending=True)
+    guest_2 = create_guest(party=party, attending=True)
+
+    url = reverse("partial_mark_not_attending", args=[party.uuid])
+
+    data = f"guest_ids={guest_1.uuid}"
+    response = authenticated_client(create_user).put(url, data=data, content_type="application/x-www-form-urlencoded")
+
+    assert Guest.objects.get(uuid=guest_1.uuid).attending is False
+    assert Guest.objects.get(uuid=guest_2.uuid).attending is True
+
+    assert response.status_code == 200
+    assert len(list(response.context["guests"])) == 2
+    assert response.context["party_id"] == party.uuid

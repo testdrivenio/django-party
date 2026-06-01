@@ -1,4 +1,4 @@
-# party/views/party_details_views.py
+# party/views/party_detail_views.py
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import QueryDict

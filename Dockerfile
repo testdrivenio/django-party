@@ -3,15 +3,18 @@
 ###########
 
 # pull official base image
-FROM python:3.13-slim-bookworm as builder
+FROM python:3.14-slim-bookworm AS builder
+
+# install uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 # install system dependencies
 RUN apt-get update \
-  && apt-get -y install g++ ca-certificates curl gnupg \
+  && apt-get -y install ca-certificates curl gnupg \
   && apt-get clean
 
 # install node
-ENV NODE_MAJOR=20
+ENV NODE_MAJOR=24
 RUN mkdir -p /etc/apt/keyrings && \
     curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
     echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
@@ -21,26 +24,31 @@ RUN mkdir -p /etc/apt/keyrings && \
 WORKDIR /usr/src/app
 
 # set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-# install python dependencies
-COPY . .
-RUN pip install --upgrade pip && pip wheel --no-cache-dir --wheel-dir /usr/src/app/wheels -r requirements.txt
+# export production dependencies and install them
+COPY pyproject.toml uv.lock ./
+RUN uv export --no-hashes --no-dev > requirements.txt \
+  && uv pip install --system --no-cache -r requirements.txt
 
-# Install Node.js dependencies
+# install Node.js dependencies
 COPY package.json package-lock.json ./
 RUN npm install
 
-# Build Tailwind
-RUN pip install -r requirements.txt && npm run tailwind:build && python manage.py collectstatic --noinput
+# build Tailwind and collect static files
+COPY . .
+RUN npm run tailwind:build && python manage.py collectstatic --noinput
 
 #########
 # FINAL #
 #########
 
 # pull official base image
-FROM python:3.13-slim-bookworm
+FROM python:3.14-slim-bookworm
+
+# install uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 # upgrade system packages
 RUN apt-get update && apt-get upgrade -y && apt-get clean
@@ -58,18 +66,16 @@ RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
 
 # set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-ENV ENVIRONMENT prod
-ENV TESTING 0
-ENV PYTHONPATH $APP_HOME
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV ENVIRONMENT=prod
+ENV TESTING=0
+ENV PYTHONPATH=$APP_HOME
 
 # install dependencies
-COPY --from=builder /usr/src/app/wheels /wheels
 COPY --from=builder /usr/src/app/requirements.txt .
 COPY --from=builder /usr/src/app/staticfiles $APP_HOME/staticfiles
-RUN pip install --upgrade pip
-RUN pip install --no-cache /wheels/*
+RUN uv pip install --system --no-cache -r requirements.txt
 
 # copy project
 COPY . $APP_HOME

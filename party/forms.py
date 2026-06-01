@@ -1,11 +1,12 @@
+# party/forms.py
+
 import datetime
 
-from crispy_forms.helper import FormHelper  # NEW
+from crispy_forms.helper import FormHelper
 from django import forms
 from django.urls import reverse_lazy
 
-from .models import Party, Gift  # NEW
-
+from .models import Party, Gift
 
 
 class PartyForm(forms.ModelForm):
@@ -16,7 +17,6 @@ class PartyForm(forms.ModelForm):
             "party_date": forms.DateInput(
                 attrs={
                     "type": "date",
-                    # NEW
                     "hx-get": reverse_lazy("partial_check_party_date"),
                     "hx-trigger": "blur",
                     "hx-swap": "outerHTML",
@@ -28,7 +28,6 @@ class PartyForm(forms.ModelForm):
                 attrs={
                     "rows": 10,
                     "cols": 30,
-                    # NEW
                     "hx-get": reverse_lazy("partial_check_invitation"),
                     "hx-trigger": "blur",
                     "hx-swap": "outerHTML",
@@ -52,7 +51,6 @@ class PartyForm(forms.ModelForm):
             raise forms.ValidationError("You chose a date in the past.")
 
         return party_date
-
 
 
 class GiftForm(forms.ModelForm):
